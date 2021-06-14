@@ -1,2 +1,2 @@
 # tkinter-scrollable-frames
-Class to quickly create scrollable frames using tkinter.
+Class to quickly create scrollable frames in tkinter.
