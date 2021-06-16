@@ -4,9 +4,8 @@ from tkinter import ttk
 
 class MakeFrame(tk.Frame):
     def __init__(self, root, width=None, height=None, container=False, xScroll=True, yScroll=True, bdThickness=0, bdColor=None):
-        
-        super().__init__(root, width=width, height=height)
-        #self.config(highlightbackground=bdColor, highlightcolor=bdColor)
+        super().__init__(root, width=width, height=height, highlightthickness=bdThickness)
+        self.config(highlightbackground=bdColor, highlightcolor=bdColor)
         
         self.root = root
         
@@ -32,7 +31,7 @@ class MakeFrame(tk.Frame):
         self.frame = tk.Frame(self.canvas)
         
         def limY(event, prnt, chld):
-            print(bdColor)
+            
             if not (prnt.winfo_rooty()-chld.winfo_rooty()) < 0:
                 self.canvas.yview_scroll(-1, "units")
         
@@ -45,7 +44,6 @@ class MakeFrame(tk.Frame):
                 
         
         def eventBind():
-            print(bdColor)
             self.canvas.bind('<MouseWheel>', lambda event: windowWheel(event, self.frame.master, self.frame))
             self.canvas.bind('<Button-4>', lambda event: limY(event, self.frame.master, self.frame))
             self.canvas.bind('<Button-5>', lambda event: self.canvas.yview_scroll(1, "units"))
@@ -74,10 +72,10 @@ class MakeFrame(tk.Frame):
         self.canvas.create_window((0,0), window=self.frame, anchor="n")
 
 class ScrollableFrame(tk.Frame):
-    def __init__(self,root,width=None,height=None, container=False, xScroll=True, yScroll=True, bdThickness=0, bdColor=None, label=None):
+    def __init__(self,root,width=None,height=None, container=False, xScroll=True, yScroll=True, bdThickness=0, innerbdThickness=0, bdColor="gray25", innerbdColor="black", label=None):
         super().__init__(root,width=width,height=height, highlightthickness=bdThickness)
         self.config(highlightbackground=bdColor, highlightcolor=bdColor)
-        scrollFrame = MakeFrame(self, container=container, xScroll=xScroll, yScroll=yScroll, bdThickness=bdThickness, bdColor=bdColor)
+        scrollFrame = MakeFrame(self, container=container, xScroll=xScroll, yScroll=yScroll, bdThickness=innerbdThickness, bdColor=innerbdColor)
         scrollFrame.pack(side=tk.TOP,fill=tk.BOTH,expand=tk.YES, anchor="nw")
         self.frame = scrollFrame.frame
         if not label == None:
@@ -113,45 +111,45 @@ if __name__ == "__main__":
     paddingx = 50
     
     
-    f1 = ScrollableFrame(superF.frame, width=300, height=300, bdThickness=4, bdColor="red", label="X Scrollbar")
+    f1 = ScrollableFrame(superF.frame, width=300, height=300, innerbdThickness=4, innerbdColor="red", label="X Scrollbar")
     f1.grid(row=0, column=0, padx=paddingx, pady=20)
     AddManyWidgetsX(f1.frame)
     
     
     
-    f2 = ScrollableFrame(superF.frame, width=300,height=300, bdThickness=4, bdColor="green", label="Y Scrollbar")
+    f2 = ScrollableFrame(superF.frame, width=300,height=300, innerbdThickness=4, innerbdColor="green", label="Y Scrollbar")
     f2.grid(row=1, column=0, padx=paddingx, pady=20)
     AddManyWidgetsY(f2.frame)
     
-    f3 = ScrollableFrame(superF.frame, width=300,height=300, bdThickness=4, bdColor="blue", label="X and Y Scrollbar")
+    f3 = ScrollableFrame(superF.frame, width=300,height=300, innerbdThickness=4, innerbdColor="blue", label="X and Y Scrollbar")
     f3.grid(row=2, column=0, padx=paddingx, pady=20)
     AddManyWidgetsXY(f3.frame)
     
     
     
-    f4 = ScrollableFrame(superF.frame, 300, 300, bdThickness=4, bdColor="yellow", label="Empty frame")
+    f4 = ScrollableFrame(superF.frame, 300, 300, bdThickness=4, bdColor="yellow", innerbdThickness=4, innerbdColor="dark green", label="Empty frame with Frame and Container borders.")
     f4.grid(row=0, column=1, padx=paddingx, pady=20)
     
-    f5 = ScrollableFrame(superF.frame, width=300,height=300, bdThickness=4, bdColor="cyan", label="No Scrollbar")
+    f5 = ScrollableFrame(superF.frame, width=300,height=300, innerbdThickness=4, innerbdColor="cyan", label="No Scrollbar")
     f5.grid(row=1, column=1, padx=paddingx, pady=20)
     tk.Button(f5.frame,text="qwerty").pack(padx=100,pady=100)
     
     
-    f6 = ScrollableFrame(superF.frame, 300,300, bdThickness=4, bdColor="indian red", label="Nested Frames")
+    f6 = ScrollableFrame(superF.frame, 300,300, container=True, innerbdThickness=4, innerbdColor="indian red", label="Nested Frames")
     f6.grid(row=2, column=1, padx=paddingx, pady=20)
     ScrollableFrame(f6.frame, 200,200, bdThickness=4, bdColor="gold").pack(side=tk.TOP, anchor="nw", padx=50, pady=50)
     
     
     
-    f7 = ScrollableFrame(superF.frame, 300,300, xScroll=False, bdThickness=4, bdColor="black", label="Only Y Scrollbar visible")
+    f7 = ScrollableFrame(superF.frame, 300,300, xScroll=False, innerbdThickness=4, innerbdColor="black", label="Only Y Scrollbar visible")
     f7.grid(row=0, column=2, padx=paddingx, pady=20)
     AddManyWidgetsY(f7.frame)
     
-    f8 = ScrollableFrame(superF.frame, 300,300, yScroll=False, bdThickness=4, bdColor="orange", label="Only X Scrollbar visible")
+    f8 = ScrollableFrame(superF.frame, 300,300, yScroll=False, innerbdThickness=4, innerbdColor="orange", label="Only X Scrollbar visible")
     f8.grid(row=1, column=2, padx=paddingx, pady=20)
     AddManyWidgetsX(f8.frame)
     
-    f9 = ScrollableFrame(superF.frame, 200,150, bdThickness=4, bdColor="dodger blue", label="Custom Sized")
+    f9 = ScrollableFrame(superF.frame, 200,1500, innerbdThickness=4, innerbdColor="dodger blue", label="Custom Sized")
     f9.grid(row=2, column=2, padx=paddingx, pady=20)
     AddManyWidgetsXY(f9.frame)
     
