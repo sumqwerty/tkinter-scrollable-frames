@@ -3,10 +3,10 @@ from tkinter import ttk
 
 
 class MakeFrame(tk.Frame):
-    def __init__(self, root, width=None, height=None, xScroll=True, yScroll=True, bdThickness=0, bdColor=None):
+    def __init__(self, root, width=None, height=None, container=False, xScroll=True, yScroll=True, bdThickness=0, bdColor=None):
         
-        super().__init__(root, width=width, height=height, highlightthickness=bdThickness)
-        self.config(highlightbackground=bdColor, highlightcolor=bdColor)
+        super().__init__(root, width=width, height=height)
+        #self.config(highlightbackground=bdColor, highlightcolor=bdColor)
         
         self.root = root
         
@@ -32,19 +32,52 @@ class MakeFrame(tk.Frame):
         self.frame = tk.Frame(self.canvas)
         
         def limY(event, prnt, chld):
+            print(bdColor)
             if not (prnt.winfo_rooty()-chld.winfo_rooty()) < 0:
                 self.canvas.yview_scroll(-1, "units")
+        
+        def windowWheel(event, prnt, child):
+            if event.num == 5 or event.delta == -120:
+                self.canvas.yview_scroll(1, "units")
                 
-        self.canvas.bind('<Button-4>', lambda event: limY(event, self.frame.master, self.frame))
-        self.canvas.bind('<Button-5>', lambda event: self.canvas.yview_scroll(1, "units"))
-        self.frame.bind('<Button-4>', lambda event: limY(event, self.frame.master, self.frame))
-        self.frame.bind('<Button-5>', lambda event: self.canvas.yview_scroll(1, "units"))
+            if event.num == 4 or event.delta == 120:
+                limY(event, prnt, child)
+                
+        
+        def eventBind():
+            print(bdColor)
+            self.canvas.bind('<MouseWheel>', lambda event: windowWheel(event, self.frame.master, self.frame))
+            self.canvas.bind('<Button-4>', lambda event: limY(event, self.frame.master, self.frame))
+            self.canvas.bind('<Button-5>', lambda event: self.canvas.yview_scroll(1, "units"))
+        
+            self.frame.bind('<MouseWheel>', lambda event: windowWheel(event, self.frame.master, self.frame))
+            self.frame.bind('<Button-4>', lambda event: limY(event, self.frame.master, self.frame))
+            self.frame.bind('<Button-5>', lambda event: self.canvas.yview_scroll(1, "units"))
+        
+        def eventBindAll():
+            self.canvas.bind_all('<MouseWheel>', lambda event: windowWheel(event, self.frame.master, self.frame))
+            self.canvas.bind_all('<Button-4>', lambda event: limY(event, self.frame.master, self.frame))
+            self.canvas.bind_all('<Button-5>', lambda event: self.canvas.yview_scroll(1, "units"))
+
+        def eventRemove():
+            self.canvas.unbind_all('<MouseWheel>')
+            self.canvas.unbind_all('<Button-4>')
+            self.canvas.unbind_all('<Button-5>')
+          
+            
+        self.canvas.bind('<Enter>', lambda event: eventBindAll() if not container else eventBind())
+        self.canvas.bind('<Leave>', lambda event: eventRemove())
+        
+        self.frame.bind('<Enter>', lambda event: eventBindAll() if not container else eventBind())
+        self.frame.bind('<Leave>', lambda event: eventRemove())
+            
         self.canvas.create_window((0,0), window=self.frame, anchor="n")
 
 class ScrollableFrame(tk.Frame):
-    def __init__(self,root,width=None,height=None, xScroll=True, yScroll=True, bdThickness=0, bdColor=None, label=None):
-        super().__init__(root,width=width,height=height)
-        scrollFrame = MakeFrame(self, xScroll=xScroll, yScroll=yScroll, bdThickness=bdThickness, bdColor=bdColor)
+    def __init__(self,root,width=None,height=None, container=False, xScroll=True, yScroll=True, bdThickness=0, bdColor=None, label=None):
+        super().__init__(root,width=width,height=height, highlightthickness=bdThickness)
+        self.config(highlightbackground=bdColor, highlightcolor=bdColor)
+        scrollFrame = MakeFrame(self, container=container, xScroll=xScroll, yScroll=yScroll, bdThickness=bdThickness, bdColor=bdColor)
         scrollFrame.pack(side=tk.TOP,fill=tk.BOTH,expand=tk.YES, anchor="nw")
         self.frame = scrollFrame.frame
         if not label == None:
@@ -74,7 +107,7 @@ if __name__ == "__main__":
     rt.title("Scrollable Frames")
     rt.geometry("600x600")
     
-    superF = ScrollableFrame(rt,bdThickness=10, bdColor="maroon")
+    superF = ScrollableFrame(rt, container=True , bdThickness=10, bdColor="maroon")
     superF.pack(fill=tk.BOTH, expand=tk.YES)
     
     paddingx = 50
