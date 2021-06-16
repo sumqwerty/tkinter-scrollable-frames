@@ -7,7 +7,8 @@ root = tk.Tk() # creating root window
 root.geometry("500x500") # Initial size of the window
 
 
-windowFrame = ScrollableFrame(root) # creating a scrollable frame, since its for the whole window, size is not requried, the frame will just expand and fill the whole window
+windowFrame = ScrollableFrame(root) # creating a scrollable frame, since its for the whole window, size is not requried, the frame will just expand and fill the
+# whole window
 windowFrame.pack(side=tk.TOP, fill=tk.BOTH, expand=tk.YES) # always pack() the scrollable frame, it its a frame for the whole window, so that "fill" and "expand" options
 # can be used to set the frame equal to the window
 
