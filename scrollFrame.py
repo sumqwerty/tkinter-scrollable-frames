@@ -242,7 +242,7 @@ if __name__ == "__main__":
     AddManyWidgetsX(f8.frame)
     
     # Frame with non rectangular dimension (its possible to size the scrollable frame) 
-    f9 = ScrollableFrame(superF.frame, 200,1500, innerbdThickness=4, innerbdColor="dodger blue", label="Custom Sized") # f9 is added to superF.frame and not directly on superF
+    f9 = ScrollableFrame(superF.frame, 200,150, innerbdThickness=4, innerbdColor="dodger blue", label="Custom Sized") # f9 is added to superF.frame and not directly on superF
     f9.grid(row=2, column=2, padx=paddingx, pady=20)
     AddManyWidgetsXY(f9.frame)
     
