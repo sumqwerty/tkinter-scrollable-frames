@@ -215,12 +215,12 @@ if __name__ == "__main__":
     AddManyWidgetsXY(f3.frame)
     
     
-    # An Empty frame with both horizontal and vertical scroll unactive, and having double borders, one on the frame and other on the container
+    # An Empty frame with both horizontal and vertical scroll inactive, and having double borders, one on the frame and other on the container
     f4 = ScrollableFrame(superF.frame, 300, 300, bdThickness=4, bdColor="yellow", innerbdThickness=4, innerbdColor="dark green", label="Empty frame with Frame and Container borders.") # f4 is added to superF.frame and not directly on superF
     f4.grid(row=0, column=1, padx=paddingx, pady=20)
     
     
-    # A Non empty scrollbar but with unactive horizonal and vertical scrollbars
+    # A Non empty scrollbar but with inactive horizonal and vertical scrollbars
     f5 = ScrollableFrame(superF.frame, width=300,height=300, innerbdThickness=4, innerbdColor="cyan", label="No Scrollbar") # f5 is added to superF.frame and not directly on superF
     f5.grid(row=1, column=1, padx=paddingx, pady=20)
     tk.Button(f5.frame,text="qwerty").pack(padx=100,pady=100)
