@@ -15,7 +15,7 @@ and start using it.
 
 
 
-## Running the scrollableFrame.py filw will give the following output, showing the different frames that can be made
+## Running the scrollableFrame.py file will give the following output, showing the different frames that can be made
 ![Demo](https://github.com/sumqwerty/tkinter-scrollable-frames/blob/main/demoPics/output1.png)
 
 
