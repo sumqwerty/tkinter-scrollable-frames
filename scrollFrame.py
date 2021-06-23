@@ -108,8 +108,8 @@ class MakeFrame(tk.Frame):
         self.canvas.bind('<Leave>', lambda event: eventRemove())
         
         # mouse enter and leave events for the frame to add remove the mouse wheel event bindings
-        self.frame.bind('<Enter>', lambda event: eventBindAll() if not container else eventBind())
-        self.frame.bind('<Leave>', lambda event: eventRemove())
+        #self.frame.bind('<Enter>', lambda event: eventBindAll() if not container else eventBind())
+        #self.frame.bind('<Leave>', lambda event: eventRemove())
         
         # creating a "virtual" window in the canvas and setting the self.frame as the window
         self.canvas.create_window((0,0), window=self.frame, anchor="n")
